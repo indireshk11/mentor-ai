@@ -3,7 +3,7 @@ import { SkillCard } from "@/components/SkillCard";
 import { Trophy, Sparkles, Flame } from "lucide-react";
 
 export default function Skills() {
-  const { skills, state } = useApp();
+  const { skills } = useApp();
   const learned = skills.filter((s) => s.completedTasks === s.totalTasks && s.totalTasks > 0);
   const inProgress = skills.filter((s) => s.completedTasks < s.totalTasks);
 

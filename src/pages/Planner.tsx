@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function Planner() {
-  const { state } = useApp();
+  const { tasks } = useApp();
   const today = new Date();
   const start = new Date(today);
   start.setDate(today.getDate() - today.getDay());
@@ -27,8 +27,8 @@ export default function Planner() {
       <div className="grid md:grid-cols-2 lg:grid-cols-7 gap-3">
         {week.map((d, i) => {
           const isToday = d.toDateString() === today.toDateString();
-          const tasks = state.tasks.filter((t) => new Date(t.dueDate).toDateString() === d.toDateString());
-          const urgent = tasks.some((t) => t.priority === "High" && t.status === "Pending");
+          const dayTasks = tasks.filter((t) => new Date(t.dueDate).toDateString() === d.toDateString());
+          const urgent = dayTasks.some((t) => t.priority === "High" && t.status === "Pending");
           return (
             <div
               key={i}
@@ -50,8 +50,8 @@ export default function Planner() {
                 </span>
               )}
               <div className="space-y-2 flex-1">
-                {tasks.length === 0 && <p className="text-xs text-muted-foreground/60">No missions</p>}
-                {tasks.map((t) => (
+                {dayTasks.length === 0 && <p className="text-xs text-muted-foreground/60">No missions</p>}
+                {dayTasks.map((t) => (
                   <div key={t.id} className="text-xs">
                     <TaskCard task={t} compact />
                   </div>

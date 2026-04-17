@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 export default function CalendarPage() {
-  const { state } = useApp();
+  const { tasks } = useApp();
   const [cursor, setCursor] = useState(new Date());
   const today = new Date();
 
@@ -15,7 +15,7 @@ export default function CalendarPage() {
 
   // Map of yyyy-mm-dd -> {done, total}
   const map = new Map<string, { done: number; total: number }>();
-  for (const t of state.tasks) {
+  for (const t of tasks) {
     const k = new Date(t.dueDate).toDateString();
     const cur = map.get(k) ?? { done: 0, total: 0 };
     cur.total += 1;
@@ -27,7 +27,7 @@ export default function CalendarPage() {
 
   // productivity: completed / total this month
   let monthDone = 0, monthTotal = 0;
-  for (const t of state.tasks) {
+  for (const t of tasks) {
     const d = new Date(t.dueDate);
     if (d.getFullYear() === year && d.getMonth() === month) {
       monthTotal++;

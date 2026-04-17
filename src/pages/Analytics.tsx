@@ -6,9 +6,9 @@ import { Category } from "@/lib/types";
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function Analytics() {
-  const { state, skills } = useApp();
-  const total = state.tasks.length;
-  const done = state.tasks.filter((t) => t.status === "Completed").length;
+  const { tasks, skills, streak } = useApp();
+  const total = tasks.length;
+  const done = tasks.filter((t) => t.status === "Completed").length;
   const pct = total ? (done / total) * 100 : 0;
 
   // Per-day completion this week
@@ -20,7 +20,7 @@ export default function Analytics() {
   const dayCounts = Array.from({ length: 7 }, (_, i) => {
     const d = new Date(start);
     d.setDate(start.getDate() + i);
-    const count = state.tasks.filter((t) => t.completedAt && new Date(t.completedAt).toDateString() === d.toDateString()).length;
+    const count = tasks.filter((t) => t.completedAt && new Date(t.completedAt).toDateString() === d.toDateString()).length;
     return { day: days[d.getDay()], count, isToday: d.toDateString() === today.toDateString() };
   });
   const max = Math.max(1, ...dayCounts.map((d) => d.count));
@@ -28,7 +28,7 @@ export default function Analytics() {
   // Per-category breakdown
   const cats: Category[] = ["Academics", "Homework", "Assessments", "Projects", "Skill Learning", "Personal Goals"];
   const catData = cats.map((c) => {
-    const all = state.tasks.filter((t) => t.category === c);
+    const all = tasks.filter((t) => t.category === c);
     const d = all.filter((t) => t.status === "Completed").length;
     return { category: c, total: all.length, done: d, pct: all.length ? (d / all.length) * 100 : 0 };
   });
@@ -42,7 +42,7 @@ export default function Analytics() {
 
       <div className="grid lg:grid-cols-3 gap-4">
         <Big title="Total Productivity" value={`${Math.round(pct)}%`} sub={`${done} of ${total} tasks done`} />
-        <Big title="Streak" value={`${state.streak.count} days`} sub="Keep showing up!" />
+        <Big title="Streak" value={`${streak.count} days`} sub="Keep showing up!" />
         <Big title="Skills Earned" value={`${skills.filter((s) => s.completedTasks === s.totalTasks && s.totalTasks).length}`} sub={`${skills.length} total`} />
       </div>
 
