@@ -6,7 +6,7 @@ import { Category } from "@/lib/types";
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function Analytics() {
-  const { tasks, skills } = useApp();
+  const { tasks, skills, streak } = useApp();
   const total = tasks.length;
   const done = tasks.filter((t) => t.status === "Completed").length;
   const pct = total ? (done / total) * 100 : 0;
