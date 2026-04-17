@@ -59,10 +59,10 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="glass rounded-2xl p-4">
             <div className="flex items-center gap-2 mb-1">
               <Flame className="w-5 h-5 text-secondary" />
-              <span className="font-display text-2xl text-gradient-sunset">{state.streak.count}</span>
+              <span className="font-display text-2xl text-gradient-sunset">{streak.count}</span>
               <span className="text-xs text-muted-foreground">day streak</span>
             </div>
-            <p className="text-xs text-muted-foreground">Keep the fire burning, {state.username}!</p>
+            <p className="text-xs text-muted-foreground">Keep the fire burning, {username}!</p>
           </div>
         </div>
       </aside>

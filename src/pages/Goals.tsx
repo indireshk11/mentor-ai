@@ -73,10 +73,10 @@ export default function Goals() {
       )}
 
       <div className="space-y-4">
-        {state.goals.length === 0 && (
+        {goals.length === 0 && (
           <div className="glass rounded-2xl p-8 text-center text-muted-foreground">No goals yet. Set your first epic quest!</div>
         )}
-        {state.goals.map((goal) => {
+        {goals.map((goal) => {
           const done = goal.milestones.filter((m) => m.completed).length;
           const pct = goal.milestones.length ? (done / goal.milestones.length) * 100 : 0;
           return (

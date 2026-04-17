@@ -27,7 +27,7 @@ export default function Planner() {
       <div className="grid md:grid-cols-2 lg:grid-cols-7 gap-3">
         {week.map((d, i) => {
           const isToday = d.toDateString() === today.toDateString();
-          const tasks = state.tasks.filter((t) => new Date(t.dueDate).toDateString() === d.toDateString());
+          const tasks = tasks.filter((t) => new Date(t.dueDate).toDateString() === d.toDateString());
           const urgent = tasks.some((t) => t.priority === "High" && t.status === "Pending");
           return (
             <div
