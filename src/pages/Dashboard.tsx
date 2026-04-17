@@ -7,26 +7,30 @@ import { Sparkles, Flame, Target, Trophy, Bot, ListChecks } from "lucide-react";
 import { useMemo } from "react";
 
 export default function Dashboard() {
-  const { state, skills } = useApp();
-  const greeting = useMemo(() => dailyGreeting(state.username), [state.username]);
+  const { tasks, goals, username, streak, skills, loading } = useApp();
+  const greeting = useMemo(() => dailyGreeting(username), [username]);
   const motivation = useMemo(() => motivationalMessage(), []);
-  const top3 = useMemo(() => suggestTopTasks(state.tasks, 3), [state.tasks]);
+  const top3 = useMemo(() => suggestTopTasks(tasks, 3), [tasks]);
 
-  const todayTasks = state.tasks.filter((t) => isToday(t.dueDate));
-  const weekTasks = state.tasks.filter((t) => isThisWeek(t.dueDate));
+  const todayTasks = tasks.filter((t) => isToday(t.dueDate));
+  const weekTasks = tasks.filter((t) => isThisWeek(t.dueDate));
   const weekDone = weekTasks.filter((t) => t.status === "Completed").length;
   const weekPct = weekTasks.length ? (weekDone / weekTasks.length) * 100 : 0;
 
-  const totalDone = state.tasks.filter((t) => t.status === "Completed").length;
-  const productivity = state.tasks.length ? (totalDone / state.tasks.length) * 100 : 0;
+  const totalDone = tasks.filter((t) => t.status === "Completed").length;
+  const productivity = tasks.length ? (totalDone / tasks.length) * 100 : 0;
 
   const learnedSkills = skills.filter((s) => s.completedTasks === s.totalTasks && s.totalTasks > 0);
   const skillsInProgress = skills.filter((s) => s.completedTasks < s.totalTasks);
 
-  const goalProgress = state.goals.map((g) => {
+  const goalProgress = goals.map((g) => {
     const done = g.milestones.filter((m) => m.completed).length;
     return { goal: g, pct: g.milestones.length ? (done / g.milestones.length) * 100 : 0 };
   });
+
+  if (loading) {
+    return <div className="text-center py-20 text-muted-foreground">Loading your hero data…</div>;
+  }
 
   return (
     <div className="space-y-8">
@@ -45,7 +49,7 @@ export default function Dashboard() {
           <p className="mt-3 text-lg text-foreground/80 max-w-2xl">{motivation}</p>
 
           <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3">
-            <Stat icon={Flame} label="Streak" value={`${state.streak.count}d`} variant="sunset" />
+            <Stat icon={Flame} label="Streak" value={`${streak.count}d`} variant="sunset" />
             <Stat icon={ListChecks} label="Today" value={`${todayTasks.length}`} variant="electric" />
             <Stat icon={Trophy} label="Productivity" value={`${Math.round(productivity)}%`} variant="hero" />
             <Stat icon={Sparkles} label="Skills" value={`${skills.length}`} variant="pink" />

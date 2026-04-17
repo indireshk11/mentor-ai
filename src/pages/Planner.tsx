@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function Planner() {
-  const { state } = useApp();
+  const { tasks } = useApp();
   const today = new Date();
   const start = new Date(today);
   start.setDate(today.getDate() - today.getDay());

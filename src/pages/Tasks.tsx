@@ -18,10 +18,10 @@ const filters: ("All" | Category | "Pending" | "Completed")[] = [
 ];
 
 export default function Tasks() {
-  const { state } = useApp();
+  const { tasks } = useApp();
   const [filter, setFilter] = useState<(typeof filters)[number]>("All");
 
-  const filtered = state.tasks.filter((t) => {
+  const filtered = tasks.filter((t) => {
     if (filter === "All") return true;
     if (filter === "Pending" || filter === "Completed") return t.status === filter;
     return t.category === filter;
