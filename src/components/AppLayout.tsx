@@ -1,6 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { LayoutDashboard, ListTodo, CalendarDays, Calendar, Target, BarChart3, Sparkles, Flame } from "lucide-react";
+import { LayoutDashboard, ListTodo, CalendarDays, Calendar, Target, BarChart3, Sparkles, Flame, LogOut } from "lucide-react";
 import { useApp } from "@/store/AppStore";
+import { useAuth } from "@/store/AuthProvider";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -15,6 +16,7 @@ const links = [
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const { username, streak } = useApp();
+  const { signOut } = useAuth();
   const location = useLocation();
 
   return (
@@ -55,7 +57,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
-        <div className="hidden lg:block p-4 mt-auto">
+        <div className="hidden lg:block p-4 mt-auto space-y-2">
           <div className="glass rounded-2xl p-4">
             <div className="flex items-center gap-2 mb-1">
               <Flame className="w-5 h-5 text-secondary" />
@@ -64,6 +66,12 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
             <p className="text-xs text-muted-foreground">Keep the fire burning, {username}!</p>
           </div>
+          <button
+            onClick={signOut}
+            className="w-full flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:bg-sidebar-accent hover:text-foreground transition-all"
+          >
+            <LogOut className="w-4 h-4" /> Sign out
+          </button>
         </div>
       </aside>
 
