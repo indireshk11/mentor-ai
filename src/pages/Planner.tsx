@@ -50,8 +50,8 @@ export default function Planner() {
                 </span>
               )}
               <div className="space-y-2 flex-1">
-                {tasks.length === 0 && <p className="text-xs text-muted-foreground/60">No missions</p>}
-                {tasks.map((t) => (
+                {dayTasks.length === 0 && <p className="text-xs text-muted-foreground/60">No missions</p>}
+                {dayTasks.map((t) => (
                   <div key={t.id} className="text-xs">
                     <TaskCard task={t} compact />
                   </div>
