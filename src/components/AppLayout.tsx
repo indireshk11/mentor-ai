@@ -14,7 +14,7 @@ const links = [
 ];
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
-  const { state } = useApp();
+  const { username, streak } = useApp();
   const location = useLocation();
 
   return (

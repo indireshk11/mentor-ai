@@ -6,7 +6,7 @@ import { Target, Plus, Trash2, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Goals() {
-  const { state, addGoal, toggleMilestone, deleteGoal } = useApp();
+  const { goals, addGoal, toggleMilestone, deleteGoal } = useApp();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [days, setDays] = useState(30);

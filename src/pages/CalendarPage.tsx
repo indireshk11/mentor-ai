@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 export default function CalendarPage() {
-  const { state } = useApp();
+  const { tasks } = useApp();
   const [cursor, setCursor] = useState(new Date());
   const today = new Date();
 
