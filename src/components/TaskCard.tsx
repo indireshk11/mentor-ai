@@ -1,8 +1,9 @@
 import { Task } from "@/lib/types";
 import { useApp } from "@/store/AppStore";
 import { CategoryBadge, PriorityBadge } from "./Badges";
-import { Check, Trash2, Calendar } from "lucide-react";
+import { Check, Trash2, Calendar, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   task: Task;
@@ -11,9 +12,16 @@ interface Props {
 
 export function TaskCard({ task, compact }: Props) {
   const { toggleTask, deleteTask } = useApp();
+  const navigate = useNavigate();
   const done = task.status === "Completed";
   const due = new Date(task.dueDate);
   const overdue = !done && due < new Date(new Date().toDateString());
+
+  const askMentor = () => {
+    const dueStr = due.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+    const prompt = `Help me tackle this task: "${task.title}"${task.description ? ` — ${task.description}` : ""}. Category: ${task.category}, priority: ${task.priority}, due ${dueStr}${task.skill ? `, skill: ${task.skill}` : ""}. Give me a focused plan and the best first step.`;
+    navigate("/mentor", { state: { seedPrompt: prompt, taskTitle: task.title } });
+  };
 
   return (
     <div
@@ -61,13 +69,23 @@ export function TaskCard({ task, compact }: Props) {
         </div>
       </div>
 
-      <button
-        onClick={() => deleteTask(task.id)}
-        className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded-lg hover:bg-destructive/15 text-destructive"
-        aria-label="Delete task"
-      >
-        <Trash2 className="w-4 h-4" />
-      </button>
+      <div className="flex flex-col items-end gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+        <button
+          onClick={askMentor}
+          className="p-1.5 rounded-lg hover:bg-primary/15 text-primary"
+          aria-label="Ask Mentor about this task"
+          title="Ask Mentor"
+        >
+          <Sparkles className="w-4 h-4" />
+        </button>
+        <button
+          onClick={() => deleteTask(task.id)}
+          className="p-1.5 rounded-lg hover:bg-destructive/15 text-destructive"
+          aria-label="Delete task"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      </div>
     </div>
   );
 }
