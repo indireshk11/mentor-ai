@@ -14,6 +14,7 @@ import CalendarPage from "./pages/CalendarPage.tsx";
 import Goals from "./pages/Goals.tsx";
 import Skills from "./pages/Skills.tsx";
 import Analytics from "./pages/Analytics.tsx";
+import MentorChat from "./pages/MentorChat.tsx";
 import Auth from "./pages/Auth.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -42,6 +43,7 @@ const App = () => (
                         <Route path="/goals" element={<Goals />} />
                         <Route path="/skills" element={<Skills />} />
                         <Route path="/analytics" element={<Analytics />} />
+                        <Route path="/mentor" element={<MentorChat />} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
                     </AppLayout>

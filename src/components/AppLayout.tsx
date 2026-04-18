@@ -1,11 +1,12 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { LayoutDashboard, ListTodo, CalendarDays, Calendar, Target, BarChart3, Sparkles, Flame, LogOut } from "lucide-react";
+import { LayoutDashboard, ListTodo, CalendarDays, Calendar, Target, BarChart3, Sparkles, Flame, LogOut, Bot } from "lucide-react";
 import { useApp } from "@/store/AppStore";
 import { useAuth } from "@/store/AuthProvider";
 import { cn } from "@/lib/utils";
 
 const links = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/mentor", label: "AI Mentor", icon: Bot },
   { to: "/tasks", label: "Tasks", icon: ListTodo },
   { to: "/planner", label: "Weekly Planner", icon: CalendarDays },
   { to: "/calendar", label: "Calendar", icon: Calendar },
