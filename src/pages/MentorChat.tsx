@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Bot, Send, Loader2, Sparkles, User } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -17,15 +18,29 @@ const SUGGESTIONS = [
 
 export default function MentorChat() {
   const { username } = useApp();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const seededRef = useRef(false);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, isLoading]);
+
+  // Auto-send a seeded prompt when arriving from "Ask Mentor" buttons.
+  useEffect(() => {
+    const seed = (location.state as { seedPrompt?: string } | null)?.seedPrompt;
+    if (seed && !seededRef.current) {
+      seededRef.current = true;
+      navigate(location.pathname, { replace: true, state: null });
+      send(seed);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state]);
 
   const send = async (text: string) => {
     const trimmed = text.trim();
